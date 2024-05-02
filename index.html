@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pizza Booking</title>
+    <style>
+        body { background-color: black; color: white; font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 20px auto; padding: 20px; }
+        label, .total { display: block; margin: 15px 0; }
+        .btn { background-color: #4CAF50; color: white; padding: 10px; border: none; cursor: pointer; }
+        .btn:hover { opacity: 0.8; }
+        .success-message { color: green; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Order Your Pizza</h2>
+        <form id="pizzaForm">
+            <label>Pizza Size:
+                <select name="size">
+                    <option value="Small">Small ($10)</option>
+                    <option value="Medium">Medium ($15)</option>
+                    <option value="Large">Large ($20)</option>
+                </select>
+            </label>
+            <label>Choose Toppings:
+                <input type="checkbox" name="topping" value="Pepperoni"> Pepperoni ($2)
+                <input type="checkbox" name="topping" value="Mushrooms"> Mushrooms ($1.5)
+                <input type="checkbox" name="topping" value="Extra Cheese"> Extra Cheese ($2)
+            </label>
+            <label>Card Number: <input type="text" name="cardNumber" maxlength="16"></label>
+            <label>Expiry Date: <input type="month" name="expiryDate"></label>
+            <label>CVV: <input type="text" name="cvv" maxlength="3"></label>
+            <button type="button" class="btn" onclick="placeOrder()">Buy Pizza</button>
+        </form>
+        <div class="success-message" id="successMessage"></div>
+    </div>
+
+    <script>
+      function placeOrder() {
+        const formElement = document.getElementById('pizzaForm');
+        const toppings = Array.from(formElement['topping']).filter(topping => topping.checked).map(topping => topping.value);
+        const sizePrice = { 'Small': 10, 'Medium': 15, 'Large': 20 };
+        const toppingPrices = { 'Pepperoni': 2, 'Mushrooms': 1.5, 'Extra Cheese': 2 };
+        const size = formElement['size'].value;
+        let totalPrice = sizePrice[size];
+
+        for (let topping of toppings) {
+          totalPrice += toppingPrices[topping];
+        }
+
+        document.getElementById('successMessage').innerHTML = `Order Placed Successfully! Your total is $${totalPrice + totalPrice * 0.05} (including tax). Estimated delivery time is ${Math.floor(Math.random() * 60) + 10} minutes.`;
+      }
+    </script>
+</body>
+</html>
